@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, autoUpdater } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -44,26 +44,26 @@ app.on('activate', () => {
   }
 })
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-
-
-import { autoUpdater } from 'electron'
-
-// autoUpdater.on('update-downloaded', () => {
-//   autoUpdater.quitAndInstall()
-// })
-
-// app.on('ready', () => {
-//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-// })
-
-const server = "http://127.0.0.1:3306"
+const server = "https://hazel-server-cbfvpxtzoc.now.sh"
 const feed = `${server}/update/${process.platform}/${app.getVersion()}`
 
-autoUpdater.setFeedURL(feed)
+autoUpdater.on('error', err => {
+    alert(err)
+})
+
+autoUpdater.on('checking-for-update', data => {
+    alert('checking-for-update:' + data)
+})
+
+autoUpdater.on('update-not-available', data => {
+    alert('update-not-available:' + data)
+})
+
+autoUpdater.on('update-downloaded', data => {
+    alert('update-downloaded:' + data)
+    autoUpdater.quitAndInstall()
+})
+
+autoUpdater.setFeedURL(feed);
+
+autoUpdater.checkForUpdates();
