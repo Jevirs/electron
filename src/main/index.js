@@ -1,4 +1,6 @@
-import { app, BrowserWindow, autoUpdater } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
+
+import { autoUpdater } from 'electron-updater'
 
 /**
  * Set `__static` path to static files in production
@@ -30,7 +32,66 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+
+function checkUpdate () {
+  const server = "https://hazel-server-iifnmbxxya.now.sh"
+  const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+  
+  autoUpdater.on('error', err => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Yes'],
+      title: 'Update Error',
+      message: 'errrrr',
+      detail: err.toString()
+    }
+  
+    dialog.showMessageBox(dialogOpts, (response) => {
+    })
+  })
+  
+  autoUpdater.on('checking-for-update', (event, releaseNotes, releaseName) => {
+
+  })
+  
+  autoUpdater.on('update-not-available', (event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Yes'],
+      title: 'update not available...',
+      message: '',
+      detail: ''
+    }
+  
+    dialog.showMessageBox(dialogOpts, (response) => {
+    })
+  })
+  
+  autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Restart', 'Later'],
+      title: 'Application Update',
+      message: process.platform === 'win32' ? releaseNotes : releaseName,
+      detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+    }
+  
+    dialog.showMessageBox(dialogOpts, (response) => {
+      if (response === 0) autoUpdater.quitAndInstall()
+    })
+  })
+  
+  autoUpdater.setFeedURL(feed);
+  
+  autoUpdater.checkForUpdates();
+}
+
+function start () { 
+  createWindow();
+  checkUpdate();
+}
+
+app.on('ready', start)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -44,26 +105,3 @@ app.on('activate', () => {
   }
 })
 
-const server = "https://hazel-server-cbfvpxtzoc.now.sh"
-const feed = `${server}/update/${process.platform}/${app.getVersion()}`
-
-autoUpdater.on('error', err => {
-    alert(err)
-})
-
-autoUpdater.on('checking-for-update', data => {
-    alert('checking-for-update:' + data)
-})
-
-autoUpdater.on('update-not-available', data => {
-    alert('update-not-available:' + data)
-})
-
-autoUpdater.on('update-downloaded', data => {
-    alert('update-downloaded:' + data)
-    autoUpdater.quitAndInstall()
-})
-
-autoUpdater.setFeedURL(feed);
-
-autoUpdater.checkForUpdates();
