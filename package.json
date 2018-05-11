@@ -1,6 +1,6 @@
 {
   "name": "electron-demo",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": "Jervis <jevirs@foxmail.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -17,8 +17,13 @@
     "postinstall": ""
   },
   "build": {
+    "publish": [{
+      "provider": "github",
+      "owner": "Jevirs",
+      "repo": "electron"
+    }],
     "productName": "electron-demo",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "org.light.electron-vue",
     "directories": {
       "output": "build"
     },

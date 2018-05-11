@@ -1,9 +1,7 @@
 <template>
   <div>
-      <p>Version:</p>
-      <p>{{version}}</p>
-
-      <button @click="update">UPDATE</button>
+      <p>this is a router-view</p>
+      <p>version: 0.0.3</p>
   </div>
 </template>
 
@@ -11,14 +9,8 @@
 export default {
   data(){
       return{
-          version: '0.0.2'
       }
   },
-  methods:{
-      update(){
-          console.log('update')
-      }
-  }
 }
 </script>
 
