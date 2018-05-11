@@ -19,4 +19,14 @@ npm run build
 
 ---
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[7c4e3e9](https://github.com/SimulatedGREG/electron-vue/tree/7c4e3e90a772bd4c27d2dd4790f61f09bae0fcef) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+#### 发布流程
+
+1. 修改package.json中version, 配置build, 指定github仓库
+
+2. 前往github生成token，选择repo下所有权限，并设置环境变量。   https://github.com/settings/tokens/new.  
+    ```
+    export GH_TOKEN="<YOUR_TOKEN_HERE>"
+    ```
+   这样auto-updater模块可授权查询，获取github中更新内容
+
+3. `npm run build`并发布到github releases
