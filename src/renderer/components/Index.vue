@@ -11,6 +11,17 @@ export default {
       return{
       }
   },
+  mounted(){
+    let ipcRenderer = this.$electron.ipcRenderer;
+
+    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+      console.log(arg) // prints "pong"
+    })
+    ipcRenderer.send('asynchronous-message', 'ping')
+    
+    console.log(ipcRenderer.sendSync('synchronous-message', 'sync-ping')) // prints "pong"
+    
+  }
 }
 </script>
 

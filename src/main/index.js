@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
 import { autoUpdater } from 'electron-updater'
 
@@ -42,7 +42,6 @@ function sendStatusToWindow(text) {
 }
 
 function checkUpdate () {
-
   autoUpdater.on('checking-for-update', () => {
     sendStatusToWindow('Checking for update...');
   })
@@ -89,16 +88,17 @@ function checkUpdate () {
       if (response === 0) autoUpdater.quitAndInstall()
     })
   });
-
   autoUpdater.checkForUpdates();
 }
 
 
 app.on('ready', () => {
   createWindow();
-  mainWindow.webContents.on('did-finish-load', () => {
-    checkUpdate();
-  })
+  if (process.env.NODE_ENV !== 'development') {
+    mainWindow.webContents.on('did-finish-load', () => {
+      checkUpdate();
+    })
+  }
 })
 
 app.on('window-all-closed', () => {
@@ -112,4 +112,17 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg)  // prints "ping"
+  event.sender.send('asynchronous-reply', 'pong')
+})
+
+
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg)  // prints "ping"
+  event.returnValue = 'sync-pong'
+})
+
 
