@@ -1,0 +1,27 @@
+directories:
+  output: output
+  buildResources: build
+publish:
+  - provider: github
+    owner: Jevirs
+    repo: electron
+productName: electron-demo
+appId: org.light.electron-vue
+files:
+  - dist/electron/**/*
+dmg:
+  contents:
+    - x: 410
+      'y': 150
+      type: link
+      path: /Applications
+    - x: 130
+      'y': 150
+      type: file
+mac:
+  icon: build/icons/icon.icns
+win:
+  icon: build/icons/icon.ico
+linux:
+  icon: build/icons
+electronVersion: 1.8.6
