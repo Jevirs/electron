@@ -44,5 +44,9 @@ deploy:
   api_key: $GH_TOKEN
   file_glob: true
   file:
-    - "output/*"
+    - "output/*.yml"
+    - "output/*.AppImage"
+    - "output/*.dmg"
+    - "output/*.zip"
+    - "output/*.exe"
   skip_cleanup: true
