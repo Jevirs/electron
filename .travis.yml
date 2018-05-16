@@ -36,7 +36,6 @@ branches:
   - master
 deploy:
   provider: releases
-  user: "Jevirs"
-  password: "zhu1993723"
+  api_key: $GITHUB_TOKEN
   file: build/*
   skip_cleanup: true
