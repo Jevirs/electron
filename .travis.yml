@@ -36,6 +36,6 @@ branches:
   - master
 deploy:
   provider: releases
-  api_key: 78abe8d8faafb70b5bd08c86662132763f0a1976
+  api_key: "78abe8d8faafb70b5bd08c86662132763f0a1976"
   file: build/*
   skip_cleanup: true
